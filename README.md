@@ -124,7 +124,7 @@ Read it left to right:
     
 3. **`Surface:100 [...]`**: the danger axis. Each fired signal is `Name:count x(opnums):direction:weight`, e.g. `HasBogusStruct` fired on 1 param (opnums 5) and its weight is 61. Then a count-based contribution: `InPtrs:6:18` = 117 caller-controlled in-pointers contributing +18, `Count:12:6` = 12 methods added +6. The `raw:134` is the pre-cap sum, `[capped to 100]`, `\* 1.0` is the confidence multiplier (drops to 0.5 when signatures are uncertain); final Surface **100**.
     
-4. **`(35 \* 100) / 100 = 35 [Provisional]`**: composite = Gate x Surface / 100. Reachability and danger are multiplied, not averaged, because danger only matters if you can reach it: a maximally dangerous interface you cannot touch must not float to the top. The `[Provisional]` flag at the end warns that the dynamic memory walk slightly mismatched the stored method count, meaning a human should verify the boundaries.
+4. **`(35 * 100) / 100 = 35 [Provisional]`**: composite = Gate x Surface / 100. Reachability and danger are multiplied, not averaged, because danger only matters if you can reach it: a maximally dangerous interface you cannot touch must not float to the top. The `[Provisional]` flag at the end warns that the dynamic memory walk slightly mismatched the stored method count, meaning a human should verify the boundaries.
     
 
 A second example showing the clamp and the low-confidence discount:
