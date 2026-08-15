@@ -139,7 +139,7 @@ Low/3 | Gate:5 [Dynamic / epmapper:29, LocalCallOnly:-100, SecureOnly:-65, HasBo
 
 ## Tiers
 
-**Critical >= 75**, **High >= 50**, **Moderate >= 25**, **Low** otherwise (an interface with zero recovered surface is Low regardless of gate). Thresholds sit on the composite; the model behind them is in `docs/SCORING_METHODOLOGY.md`.
+**Critical >= 75**, **High >= 50**, **Moderate >= 25**, **Low** otherwise (an interface with zero recovered surface is Low regardless of gate). Thresholds sit on the composite; the model behind them is in `docs/Surface_Scoring_Methadology.md`.
 
 ## The scoring model
 
