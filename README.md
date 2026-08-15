@@ -167,4 +167,4 @@ A static triage / mapping tool for vulnerability research on systems you own. It
 
 ## License
 
-MIT.
+MIT
