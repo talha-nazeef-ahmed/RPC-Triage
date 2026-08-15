@@ -1,0 +1,7 @@
+out/
+*.rep/
+*.gpr
+.analysisComplete
+__pycache__/
+*.pyc
+.DS_Store
