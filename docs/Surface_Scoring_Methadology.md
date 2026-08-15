@@ -20,16 +20,35 @@
 The mathematical solution to these kinds of problems is introducing a logarithmic scale (log10(n) + 1). What it does is compress exponential growth into a linear progression, so while the relative intensity between the variables is perfectly preserved, the numbers themselves don't overshoot. So I used this approach and to put it on test, I manually started the calculations. Now, I have attached the pic of my hand written check which might be messy so I apologize for it as you will see alot of my handwritten test pics as we progress ahead.
 
 **Smoothing the intensities:**
-<img width="1600" height="1533" alt="image" src="https://github.com/user-attachments/assets/0aa731f3-431d-473d-901d-505f2b8a89b2" />
+
+<details>
+<summary>Open handwritten calculation</summary>
+
+<img src="./images/surface_smoothing.png" width="700">
+
+</details>
 
 **Building the matrix for AHP calculation:**
-<img width="1347" height="1588" alt="image" src="https://github.com/user-attachments/assets/cdc925d5-beae-447c-97dd-e4f2713451e0" />
+
+<details>
+<summary>Open handwritten calculation</summary>
+
+<img src="./images/surface_matrix.png" width="700">
+
+</details>
 
 **Calculating Geometric Mean(GM), taking root of n & calculating the Principle Weight(PW):**
-<img width="1222" height="1428" alt="image" src="https://github.com/user-attachments/assets/4c5564be-b263-42fa-bb2c-6aebd37e5048" />
+
+<details>
+<summary>Open handwritten calculation</summary>
+
+<img src="./images/surface_gm.png" width="700">
+
+</details>
 
 **Check:**
-<img width="1170" height="1600" alt="image" src="https://github.com/user-attachments/assets/aac2c22d-143f-4e4c-811d-95a005ed83e9" />
+
+<img src="./images/surface_check.png" width="700">
 
 **Scoring:**
 Now we got the contradiction of 1.6%, the passing bar was less than 10% so we are good to proceed on scoring the criteria. Now we have to first choose a constant and any criterion, a ceiling to which the other scores will be compared relatively. In mathematics for these relations, a ceiling of 100 is usually chosen and making FUM a ceiling is the logical choice here. The formula is:
@@ -51,30 +70,51 @@ So, in the dictionary in the code `SURFACE_SIGNAL_WEIGHT` constants comes from t
 # Doing Math for GATE_TRANSPORT_BASE:
 
 **Deductions & Smoothing:**
-<img width="1111" height="1599" alt="image" src="https://github.com/user-attachments/assets/59a12ca6-7926-4a92-8b5e-81b706ee113e" />
+
+<details>
+<summary>Open handwritten calculation</summary>
+
+<img src="./images/gate_transport_smoothing.png" width="700">
+
+</details>
 
 **Matrix Building & Geometric Mean:**
-<img width="1006" height="1599" alt="image" src="https://github.com/user-attachments/assets/8b41205f-68e1-4b68-b1d6-bce4d9508d19" />
+
+<details>
+<summary>Open handwritten calculation</summary>
+
+<img src="./images/gate_transport_matrix.png" width="700">
+
+</details>
 
 **Principle Weight & Scoring:**
-<img width="1245" height="1428" alt="image" src="https://github.com/user-attachments/assets/b92cbc09-bd40-48d6-90e7-ffd3c843fb49" />
+
+<img src="./images/gate_transport_scoring.png" width="700">
 
 ---
 
 ## Doing Math for GATE_MODIFIERS:
 
 **Deductions & Smoothing:**
-<img width="1063" height="1600" alt="image" src="https://github.com/user-attachments/assets/366c02e5-cd3d-4f27-9e60-fe891bdf0c9c" />
 
+<details>
+<summary>Open handwritten calculation</summary>
+
+<img src="./images/gate_modifiers_smoothing.png" width="700">
+
+</details>
 
 **Matrix Building & Geometric Mean:**
-<img width="1054" height="1600" alt="image" src="https://github.com/user-attachments/assets/6a9ff4d3-4e56-40a4-83aa-9666f9e2942c" />
 
+<details>
+<summary>Open handwritten calculation</summary>
+
+<img src="./images/gate_modifiers_matrix.png" width="700">
+
+</details>
 
 **Principle Weight & Scoring:**
-<img width="1063" height="1600" alt="image" src="https://github.com/user-attachments/assets/fa9b62e5-bf5e-4ff5-a76e-d7232b7eff31" />
+
+<img src="./images/gate_modifiers_scoring.png" width="700">
 
 `Note`: Here PPC value is a calculator slip and it was corrected to 21 in the original script
-
-
-
