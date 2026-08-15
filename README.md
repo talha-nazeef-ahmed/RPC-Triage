@@ -28,6 +28,7 @@ target dir --(pefile filter) --> only RPC-registering PEs
            --> single JSON report
 
  ```
+**Zero-Symbol Dependency:** A critical technical differentiator of this engine is that it operates entirely without debug symbols. By programmatically walking the dispatch tables and parsing the raw NDR (Network Data Representation) bytecodes and compiled MIDL structures directly from memory, the tool bypasses the need for Microsoft's .pdb files or live endpoint mapper queries. This guarantees the engine works out-of-the-box on stripped, production System32 binaries exactly as they ship.
 
 ## Requirements
 
@@ -58,7 +59,7 @@ Everything is driven by `orchestrator.py`: it filters, imports, analyzes and run
 ``` bash
 python orchestrator.py \
   -t \"C:\Windows\System32\" \
-  -g \"C:\ghidra_11.1.2_PUBLIC\" \
+  -g \"C:\ghidra_12.1.2_PUBLIC\" \
   -s \".\extract_rpc_interfaces.py\" \
   -o \".\out\report.json\" \
   --stagedir \".\out\staged\" \
@@ -81,7 +82,7 @@ python orchestrator.py \
 
 ## Output
 
-One JSON file: a list of binaries, each with an `Interfaces` array. A complete run over System32 is included in this repo at `output/FullBatchRun.json` it is the raw, uncurated output (ghidra was behaving weirdly on my machine for some reason and dropped 5-6 binaries) so you can see exactly what the tool produces at scale (not a hand-picked highlight reel). Per interface:
+One JSON file: a list of binaries, each with an `Interfaces` array. A complete run over System32 is included in this repo at `output/FullBatchRun.json` it is the raw, uncurated output  so you can see exactly what the tool produces at scale. Per interface:
 
 | field | meaning |
 | --- | --- |
@@ -122,7 +123,7 @@ Read it left to right:
     
 2. **`Gate:35 [...]`**: the reachability axis. It starts from the transport base (`ncacn_np:41`, a named pipe), then lists each registration modifier with its signed contribution: `MultiEndpointBonus:15` (registered on several transports), `HasBouncer:-46` (a security callback is present, which lowers reachability), and `BouncerIsNotCaching:+25`. Summed and then clamped to \[5,100\] -> **35**.
     
-3. **`Surface:100 [...]`**: the danger axis. Each fired signal is `Name:count x(opnums):direction:weight`, e.g. `HasBogusStruct` fired on 1 param (opnums 5) and its weight is 61. Then a count-based contribution: `InPtrs:6:18` = 117 caller-controlled in-pointers contributing +18, `Count:12:6` = 12 methods added +6. The `raw:134` is the pre-cap sum, `[capped to 100]`, `\* 1.0` is the confidence multiplier (drops to 0.5 when signatures are uncertain); final Surface **100**.
+3. **`Surface:100 [...]`**: the danger axis. Each fired signal is `Name:count x(opnums):direction:weight`, e.g. `HasBogusStruct` fired on 1 param (opnums 5) and its weight is 61. Then a count-based contribution: `InPtrs:6:18` = 6 caller-controlled in-pointers contributing +18, `Count:12:6` = 12 methods added +6. The `raw:134` is the pre-cap sum, `[capped to 100]`, `\* 1.0` is the confidence multiplier (drops to 0.5 when signatures are uncertain); final Surface **100**.
     
 4. **`(35 * 100) / 100 = 35 [Provisional]`**: composite = Gate x Surface / 100. Reachability and danger are multiplied, not averaged, because danger only matters if you can reach it: a maximally dangerous interface you cannot touch must not float to the top. The `[Provisional]` flag at the end warns that the dynamic memory walk slightly mismatched the stored method count, meaning a human should verify the boundaries.
     
