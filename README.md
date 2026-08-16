@@ -123,7 +123,7 @@ Read it left to right:
     
 2. **`Gate:35 [...]`**: the reachability axis. It starts from the transport base (`ncacn_np:41`, a named pipe), then lists each registration modifier with its signed contribution: `MultiEndpointBonus:15` (registered on several transports), `HasBouncer:-46` (a security callback is present, which lowers reachability), and `BouncerIsNotCaching:+25`. Summed and then clamped to \[5,100\] -> **35**.
     
-3. **`Surface:100 [...]`**: the danger axis. Each fired signal is `Name:count x(opnums):direction:weight`, e.g. `HasBogusStruct` fired on 1 param (opnums 5) and its weight is 61. Then a count-based contribution: `InPtrs:6:18` = 6 caller-controlled in-pointers contributing +18, `Count:12:6` = 12 methods added +6. The `raw:134` is the pre-cap sum, `[capped to 100]`, `\* 1.0` is the confidence multiplier (drops to 0.5 when signatures are uncertain); final Surface **100**.
+3. **`Surface:100 [...]`**: the danger axis. Each fired signal is `Name:count x(opnums):direction:weight`, e.g. `HasBogusStruct` fired on 1 param (opnums 5) and its weight is 61. Then a count-based contribution: `InPtrs:6:18` = 6 caller-controlled in-pointers contributing +18, `Count:12:6` = 12 methods added +6. The `raw:134` is the pre-cap sum, `[capped to 100]`, `* 1.0` is the confidence multiplier (drops to 0.5 when signatures are uncertain); final Surface **100**.
     
 4. **`(35 * 100) / 100 = 35 [Provisional]`**: composite = Gate x Surface / 100. Reachability and danger are multiplied, not averaged, because danger only matters if you can reach it: a maximally dangerous interface you cannot touch must not float to the top. The `[Provisional]` flag at the end warns that the dynamic memory walk slightly mismatched the stored method count, meaning a human should verify the boundaries.
     
@@ -135,7 +135,7 @@ Low/3 | Gate:5 [Dynamic / epmapper:29, LocalCallOnly:-100, SecureOnly:-65, HasBo
 
  ```
 
-`LocalCallOnly:-100` alone drives the gate below zero so it clamps to the floor of 5; signatures were uncertain so Surface is halved (`\* 0.5`); composite lands at 3. Dangerous input space, but effectively unreachable -> correctly deprioritized.
+`LocalCallOnly:-100` alone drives the gate below zero so it clamps to the floor of 5; signatures were uncertain so Surface is halved (`* 0.5`); composite lands at 3. Dangerous input space, but effectively unreachable -> correctly deprioritized.
 
 ## Tiers
 
@@ -143,13 +143,13 @@ Low/3 | Gate:5 [Dynamic / epmapper:29, LocalCallOnly:-100, SecureOnly:-65, HasBo
 
 ## The scoring model
 
-All three weight tables (transport bases, gate modifiers, surface signals) are derived with the Analytic Hierarchy Process; pairwise comparisons, geometric-mean weights, and a measured consistency ratio. The full derivation, matrices, consistency numbers and the hand-worked notes are in `docs/SCORING_METHODOLOGY.md`.
+All three weight tables (transport bases, gate modifiers, surface signals) are derived with the Analytic Hierarchy Process; pairwise comparisons, geometric-mean weights, and a measured consistency ratio. The full derivation, matrices, consistency numbers and the hand-worked notes are in `docs/Surface_Scoring_Methadology.md`.
 
 ## Validation
 
 So the extraction is not just self-confirming, the interfaces this tool recovers were cross-checked against an independent, well-established RPC IDL extractor (the RpcServer parser in James Forshaw's NtObjectManager) run on the same binaries. Reference dumps for `lsass`, `samsrv` and `winlogon` are in `validation/`, and the full walkthrough is in `validation/VALIDATION.md`. Compare any of them against the matching binary in `output/FullBatchRun.json`: the interface UUIDs, method/opnum counts and per-parameter directions line up (for example, winlogon's `12E65DD8-...` interface shows five methods, Proc0-Proc4, in both). The reference tool stops at recovering the IDL; this tool takes the same recovered surface and adds the reachability x danger ranking on top. No affiliation with that project, it is used purely as an independent ground-truth check.
 
-## Limitations (read before you quote a number)
+## Limitations
 
 - **Static only.** Nothing is invoked. Reachability is inferred from registration, not at runtime.
     
